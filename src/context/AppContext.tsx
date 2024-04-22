@@ -41,7 +41,7 @@ export function AppProvider({ children }: AppProviderProps) {
         });
         
         // アンマウントでonAuthStateChangedが停止。
-        return () =>{
+        return () => {
             unsubscribe();
         };
 

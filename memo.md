@@ -18,3 +18,16 @@ react-hook-form
   <span>ログアウト</span>
 </div>
 ```
+
+<br>
+
+SSGやSSRといったNextの強みを使用していない
+➡バックエンドfirebaseを使ってonSnapshot等行っていたので必要性が少なかった。
+
+<br>
+
+レスポンシブ未対応
+
+<br>
+
+routerにはlocationというグローバル変数が使われており、useEffect内で書かれないと機能しない。

@@ -4,9 +4,7 @@ import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, Timest
 import React, { useEffect, useState } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa';
 import { auth, db } from '../../../firebase';
-import { unsubscribe } from 'diagnostics_channel';
 import { useAppContext } from '@/context/AppContext';
-import { DiVim } from 'react-icons/di';
 
 type Room = {
   id: string;
@@ -15,24 +13,24 @@ type Room = {
 }
 
 const Sidebar = () => {
-  const { user, userId, setSelectedRoom } = useAppContext();
+  const { user, userId, setSelectedRoom, setSelectRoomName } = useAppContext();
 
   const [rooms, setRooms] = useState<Room[]>([]);
 
-  const selectRoom = (roomId:string) => {
-    setSelectedRoom(roomId);
-  };
-
   useEffect(() => {
     if (user) {
-      const fetchRooms = async () =>{
+      const fetchRooms = async () => {
         const roomCollectionRef = collection(db, "rooms");
-        const q = query(roomCollectionRef, where("userid", "==", userId), orderBy("createdAt"));
+        const q = query(
+          roomCollectionRef,
+          where("userid", "==", userId),
+          orderBy("createdAt")
+        );
         const unsubscribe = onSnapshot(q, (snapshot) => {
           const newRooms: Room[] = snapshot.docs.map((doc) => ({
-            id: doc.id,       //ドキュメントID
+            id: doc.id,
             name: doc.data().name,
-            createdAt: doc.data().createdAt,    //ドキュメント配下の全データ取得
+            createdAt: doc.data().createdAt,
           }));
           setRooms(newRooms);
         });
@@ -42,13 +40,18 @@ const Sidebar = () => {
         };
       };
 
-    fetchRooms();
+      fetchRooms();
     }
-  }, [userId]);
+  }, [userId, user]);
+
+  const selectRoom = (roomId: string, roomName: string) => {
+    setSelectedRoom(roomId);
+    setSelectRoomName(roomName);
+  };
 
   const addNewRoom = async () => {
     const roomName = prompt("ルーム名を入力");
-    if(roomName) {
+    if (roomName) {
       const newRoomRef = collection(db, "rooms");
       await addDoc(newRoomRef, {
         name: roomName,
@@ -56,11 +59,11 @@ const Sidebar = () => {
         createdAt: serverTimestamp(),
       });
     }
-  }
+  };
 
   const handleLogout = () => {
     auth.signOut();
-  }
+  };
 
   return (
     <div className='h-full bg-gray-50 overflow-y-auto px-5 flex flex-col'>
@@ -74,22 +77,19 @@ const Sidebar = () => {
             <li
              key={room.id}
              className='btn-chatlist'
-             onClick={() => selectRoom(room.id)}
+             onClick={() => selectRoom(room.id, room.name)}
             >{room.name}</li>
             ))}
-          {/* <li className='btn-chatlist'>Room 1</li>
-          <li className='btn-chatlist'>Room 2</li>
-          <li className='btn-chatlist'>Room 3</li> */}
         </ul>
         </div>
 
         {user && <div className='mb-2 p-4 text-lg font-medium'>{user.email}</div>}
 
         <div
-         onClick={() => handleLogout}
+         onClick={handleLogout}
          className='text-lg flex items-center justify-evenly mb-2 cursor-pointer p-4 border drop-shadow-lg hover:bg-gray-300 duration-100'>
           <FaSignOutAlt />
-          <span>ログアウト</span>
+          <span>LOGOUT</span>
         </div>
     </div>
   )

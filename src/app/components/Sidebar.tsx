@@ -86,7 +86,7 @@ const Sidebar = () => {
         {user && <div className='mb-2 p-4 text-lg font-medium'>{user.email}</div>}
 
         <div
-         onClick={handleLogout}
+         onClick={() => handleLogout}
          className='text-lg flex items-center justify-evenly mb-2 cursor-pointer p-4 border drop-shadow-lg hover:bg-gray-300 duration-100'>
           <FaSignOutAlt />
           <span>ログアウト</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, Timestamp, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { db } from "../../../firebase";
 import { BiSolidPaperPlane } from "react-icons/bi";
 import { useAppContext } from '@/context/AppContext';
@@ -26,6 +26,9 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const scrollDiv = useRef<HTMLDivElement>(null);
+
+
   //各Roomのメッセージを取得
   useEffect(() => {
     if (selectedRoom) {
@@ -49,6 +52,15 @@ const Chat = () => {
     }
   }, [selectedRoom]);
 
+  useEffect(() => {
+    if(scrollDiv.current) {
+      const element = scrollDiv.current;
+      element.scrollTo({
+        top: element.scrollHeight,
+        behavior: "smooth",
+      })
+    }
+  }, [messages])
 
   const sendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -86,7 +98,7 @@ const Chat = () => {
   return (
     <div className='h-full bg-gray-400 p-4 flex flex-col'>
       <h1 className='border-b text-2xl text-white mb-4 font-semibold'>Room1</h1>
-      <div className='flex-grow over-flow-y-auto mb-4'>
+      <div className='flex-grow over-flow-y-auto mb-4' ref={scrollDiv}>
         {messages.map((message, index) => (
             <div key={index} className={message.sender === "user" ? "text-right" : "text-left"}>
               <div

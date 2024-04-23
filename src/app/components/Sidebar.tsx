@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, Timestamp, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa';
 import { db } from '../../../firebase';
@@ -45,10 +45,22 @@ const Sidebar = () => {
     }
   }, [userId]);
 
+  const addNewRoom = async () => {
+    const roomName = prompt("ルーム名を入力");
+    if(roomName) {
+      const newRoomRef = collection(db, "rooms");
+      await addDoc(newRoomRef, {
+        name: roomName,
+        userid: userId,
+        createdAt: serverTimestamp(),
+      });
+    }
+  }
+
   return (
     <div className='h-full bg-gray-50 overflow-y-auto px-5 flex flex-col'>
         <div className='flex-grow relative'>
-          <div className='cursor-pointer flex justify-evenly items-center mt-2 mb-8 rounded-md border shadow-[0px_10px_1px_rgba(221,_221,_221,_1),_0_10px_20px_rgba(204,_204,_204,_1)]'>
+          <div onClick={addNewRoom} className='cursor-pointer flex justify-evenly items-center mt-2 mb-8 rounded-md border shadow-[0px_10px_1px_rgba(221,_221,_221,_1),_0_10px_20px_rgba(204,_204,_204,_1)]'>
             <span className='p-4 text-2xl'>＋</span>
             <h1 className='text-xl  font-semibold p-4'>New Chat</h1>
           </div>

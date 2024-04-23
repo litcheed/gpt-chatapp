@@ -1,59 +1,81 @@
 "use client";
 
-import { onAuthStateChanged, User } from "firebase/auth";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { User, onAuthStateChanged } from "firebase/auth";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { auth } from "../../firebase";
+import { useRouter } from "next/navigation";
 
 type AppProviderProps = {
-    children: ReactNode;
+  children: ReactNode;
 };
 
 type AppContextType = {
-    user: User | null;
-    userId: string | null;
-    setUser: React.Dispatch<React.SetStateAction<User | null>>;
-    selectedRoom: string | null;
-    setSelectedRoom: React.Dispatch<React.SetStateAction<string | null>>;
+  user: User | null;
+  userId: string | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  selectedRoom: string | null;
+  setSelectedRoom: React.Dispatch<React.SetStateAction<string | null>>;
+  selectRoomName: string | null;
+  setSelectRoomName: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const defaultContextData = {
-    user: null,
-    userId: null,
-    setUser: () => {},
-    selectedRoom: null,
-    setSelectedRoom: () => {},
+const defalutContextData = {
+  user: null,
+  userId: null,
+  setUser: () => {},
+  selectedRoom: null,
+  setSelectedRoom: () => {},
+  selectRoomName: null,
+  setSelectRoomName: () => {},
 };
 
-const AppContext = createContext<AppContextType>(defaultContextData);
-
+const AppContext = createContext<AppContextType>(defalutContextData);
 
 export function AppProvider({ children }: AppProviderProps) {
-    const [user, setUser] = useState<User | null>(null);
-    const [userId, setUserId] = useState<string | null>(null);
-    const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [selectRoomName, setSelectRoomName] = useState<string | null>(null);
+  const router = useRouter();
 
-    // ログイン・ログアウトの状態管理
-    useEffect(() => {
-        // onAuthStateChangedは常に更新し続けるため購読解除のunsubscribeを追加
-        const unsubscribe = onAuthStateChanged(auth, (newUser) => {
-            setUser(newUser);+
-            setUserId(newUser ? newUser.uid : null);
-        });
-        
-        // アンマウントでonAuthStateChangedが停止。
-        return () => {
-            unsubscribe();
-        };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (newUser) => {
+      setUser(newUser);
+      setUserId(newUser ? newUser.uid : null);
 
-    }, []);
+      if (!newUser) {
+        router.push("/auth/login");
+      }
+    });
 
-    return (
-        <AppContext.Provider value={{ user, userId, setUser, selectedRoom, setSelectedRoom }}>
-            {children}
-        </AppContext.Provider>
-    )
-};
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  return (
+    <AppContext.Provider
+      value={{
+        user,
+        userId,
+        setUser,
+        selectedRoom,
+        setSelectedRoom,
+        selectRoomName,
+        setSelectRoomName,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+}
 
 export function useAppContext() {
-    return useContext(AppContext);
-  }
+  return useContext(AppContext);
+}

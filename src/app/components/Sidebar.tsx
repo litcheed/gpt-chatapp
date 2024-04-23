@@ -3,9 +3,10 @@
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, Timestamp, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { FaSignOutAlt } from 'react-icons/fa';
-import { db } from '../../../firebase';
+import { auth, db } from '../../../firebase';
 import { unsubscribe } from 'diagnostics_channel';
 import { useAppContext } from '@/context/AppContext';
+import { DiVim } from 'react-icons/di';
 
 type Room = {
   id: string;
@@ -57,6 +58,10 @@ const Sidebar = () => {
     }
   }
 
+  const handleLogout = () => {
+    auth.signOut();
+  }
+
   return (
     <div className='h-full bg-gray-50 overflow-y-auto px-5 flex flex-col'>
         <div className='flex-grow relative'>
@@ -78,7 +83,11 @@ const Sidebar = () => {
         </ul>
         </div>
 
-        <div className='text-lg flex items-center justify-evenly mb-2 cursor-pointer p-4 border drop-shadow-lg hover:bg-gray-300 duration-100'>
+        {user && <div className='mb-2 p-4 text-lg font-medium'>{user.email}</div>}
+
+        <div
+         onClick={handleLogout}
+         className='text-lg flex items-center justify-evenly mb-2 cursor-pointer p-4 border drop-shadow-lg hover:bg-gray-300 duration-100'>
           <FaSignOutAlt />
           <span>ログアウト</span>
         </div>

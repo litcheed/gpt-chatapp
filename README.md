@@ -1,3 +1,15 @@
+### app URL
+https://chat-gpt-chat-app-2e4d2.web.app/
+
+
+
+### app login information
+ID: test@test.com
+PASSWORD: testtest
+
+アカウント新規作成でも問題ないです。
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

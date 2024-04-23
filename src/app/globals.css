@@ -5,3 +5,10 @@
 body {
     background-color: rgb(40, 40, 40);
 }
+
+@layer components {
+    .btn-chatlist {
+      @apply cursor-pointer m-4 p-4 rounded-md border border-gray-500 shadow-[5px_5px_0px_0px_rgba(100,100,100)]
+       hover:bg-gray-200 duration-100;
+    }
+  }

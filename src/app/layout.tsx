@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "@/context/AppContext";
 
 export const metadata: Metadata = {
   title: "Chat-GPT Chat App",
@@ -13,8 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="ja">
+      <body>
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }

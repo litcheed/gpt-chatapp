@@ -1,3 +1,8 @@
+### app URL
+https://chat-gpt-chat-app-2e4d2.web.app/
+
+
+
 ### app login information
 ID: test@test.com
 PASSWORD: testtest

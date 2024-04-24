@@ -1,5 +1,5 @@
 ### app URL
-https://chat-gpt-chat-app-2e4d2.web.app/
+[https://chat-gpt-chat-app-2e4d2.web.app/auth/login](https://chat-gpt-chat-app-2e4d2.web.app/auth/login)
 
 
 

@@ -4,16 +4,17 @@ APIが無料版のため有効期限切れが疑わしい。<br>
 そのためチャット以外の部分を確認いただければと思います。
 
 ### app URL
-[https://chat-gpt-chat-app-2e4d2.web.app/auth/login](https://chat-gpt-chat-app-2e4d2.web.app/auth/login)
-
+ログインページ: [https://chat-gpt-chat-app-2e4d2.web.app/auth/login](https://chat-gpt-chat-app-2e4d2.web.app/auth/login)<br>
+新規登録ページ: [https://chat-gpt-chat-app-2e4d2.web.app/auth/register](https://chat-gpt-chat-app-2e4d2.web.app/auth/register)<br>
+チャットページ: [https://chat-gpt-chat-app-2e4d2.web.app](https://chat-gpt-chat-app-2e4d2.web.app)<br>
 
 
 ### app login information
-ID: test@test.com
+ID: test@test.com<br>
 PASSWORD: testtest
 
-アカウント新規作成でも問題ないです。
-
+アカウント新規作成でも問題ないです。<br>
+<hr>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

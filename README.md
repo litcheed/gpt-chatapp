@@ -1,3 +1,8 @@
+### 注意
+ChatGPTからのチャットが返ってこない状態です。<br>
+APIが無料版のため有効期限切れが疑わしい。<br>
+そのためチャット以外の部分を確認いただければと思います。
+
 ### app URL
 [https://chat-gpt-chat-app-2e4d2.web.app/auth/login](https://chat-gpt-chat-app-2e4d2.web.app/auth/login)
 
